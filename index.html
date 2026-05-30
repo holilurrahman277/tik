@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kewargaan Digital: Cyberbullying - Ruang Murid</title>
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        :root {
+            --sky-50: #f0f9ff;
+            --sky-100: #e0f2fe;
+            --sky-200: #bae6fd;
+            --sky-300: #7dd3fc;
+            --sky-400: #38bdf8;
+            --sky-500: #0ea5e9;
+            --sky-600: #0284c7;
+            --sky-700: #0369a1;
+            --slate-900: #0f172a;
+            --slate-800: #1e293b;
+            --slate-700: #334155;
+            --slate-600: #475569;
+            --slate-400: #94a3b8;
+            --emerald-500: #10b981;
+            --rose-500: #f43f5e;
+            --amber-500: #f59e0b;
+            --indigo-500: #6366f1;
+            --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+
+        body {
+            background-color: #0b1329;
+            background-image: radial-gradient(at 0% 0%, hsla(224, 64%, 15%, 1) 0, transparent 60%),
+                              radial-gradient(at 100% 100%, hsla(210, 75%, 12%, 1) 0, transparent 60%);
+            font-family: 'Nunito', sans-serif;
+            color: var(--slate-800);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            padding: 20px;
+        }
+
+        /* Animasi Awan Bergerak */
+        .decor-cloud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(6px);
+            border-radius: 100px;
+            pointer-events: none;
+            z-index: 1;
+            animation: floatClouds 25s linear infinite;
+            box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        @keyframes floatClouds {
+            0% { transform: translateX(-150px) translateY(0); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { transform: translateX(calc(100vw + 150px)) translateY(-20px); opacity: 0; }
+        }
+
+        /* Layout Utama - Struktur Aplikasi Terintegrasi */
+        .app-window {
+            width: 1100px;
+            height: 650px;
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(16px);
+            border: 4px solid rgba(255, 255, 255, 0.8);
+            border-radius: 32px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            height: 70px;
+            border-bottom: 2px solid var(--sky-100);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            background: rgba(255, 255, 255, 0.85);
+            z-index: 20;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-badge {
+            background: linear-gradient(135deg, var(--sky-400), var(--sky-600));
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            box-shadow: 0 4px 10px rgba(14, 165, 233, 0.3);
+            animation: pulse-slow 2s infinite alternate;
+        }
+
+        @keyframes pulse-slow {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.08); }
+        }
+
+        .logo-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            font-size: 18px;
+            color: var(--sky-700);
+            letter-spacing: -0.5px;
+        }
+
+        .top-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .control-btn {
+            background: var(--sky-50);
+            border: 1px solid var(--sky-200);
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-weight: 700;
+            color: var(--sky-700);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition-smooth);
+        }
+
+        .control-btn:hover {
+            background: var(--sky-100);
+            transform: translateY(-2px);
+        }
+
+        /* Main Workspace dengan Sidebar dan Viewport */
+        .workspace-body {
+            display: flex;
+            flex: 1;
+            height: calc(100% - 70px);
+            position: relative;
+        }
+
+        /* 1. SIDEBAR NAVIGASI (Sistem Baru) */
+        .navigation-sidebar {
+            width: 250px;
+            background: #f8fafc;
+            border-right: 2px solid var(--sky-100);
+            display: flex;
+            flex-direction: column;
+            padding: 24px 16px;
+            gap: 10px;
+            overflow-y: auto;
+            z-index: 15;
+            transition: var(--transition-smooth);
+        }
+
+        .sidebar-section-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--slate-400);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 10px 0 5px 8px;
+        }
+
+        .sidebar-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 14px;
+            color: var(--slate-600);
+            font-weight: 700;
+            font-size: 14px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            border: 1px solid transparent;
+        }
+
+        .sidebar-nav-item i {
+            font-size: 16px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .sidebar-nav-item:hover {
+            background: rgba(14, 165, 233, 0.05);
+            color: var(--sky-600);
+        }
+
+        .sidebar-nav-item.active {
+            background: var(--sky-500);
+            color: white;
+            box-shadow: 0 8px 16px -4px rgba(14, 165, 233, 0.3);
+            border-color: var(--sky-400);
+        }
+
+        /* Viewport Utama */
+        .deck-viewport {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            background: radial-gradient(circle at 10% 20%, rgba(240, 249, 255, 0.4) 0%, rgba(255, 255, 255, 0) 90%);
+        }
+
+        /* Pengaturan Slide - Animasi Masuk/Keluar yang lebih dinamis */
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 40px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            opacity: 0;
+            transform: scale(0.96) translateY(15px);
+            pointer-events: none;
+            transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 10;
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+            pointer-events: auto;
+        }
+
+        /* Slide Elements & Typografi */
+        h1, h2, h3 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            color: var(--sky-700);
+        }
+
+        .slide-heading {
+            font-size: 34px;
+            line-height: 1.2;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .slide-subtitle {
+            font-size: 16px;
+            color: var(--slate-600);
+            margin-bottom: 24px;
+        }
+
+        /* Grid Layouts */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 30px;
+            align-items: center;
+            height: 100%;
+        }
+
+        /* Card Designs */
+        .card {
+            background: white;
+            border: 2px solid var(--sky-100);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 10px 25px -5px rgba(2, 132, 199, 0.05);
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--sky-300);
+            box-shadow: 0 20px 30px -10px rgba(2, 132, 199, 0.12);
+        }
+
+        .icon-box {
+            width: 50px;
+            height: 50px;
+            background: var(--sky-50);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: var(--sky-500);
+            margin-bottom: 15px;
+            transition: var(--transition-smooth);
+        }
+
+        .card:hover .icon-box {
+            background: var(--sky-500);
+            color: white;
+            transform: rotate(10deg) scale(1.1);
+        }
+
+        /* Tiles */
+        .tiles-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        /* Interactive Stats Bar */
+        .bar-chart {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .chart-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .label-chart {
+            width: 150px;
+            font-weight: 700;
+            color: var(--slate-600);
+        }
+
+        .bar-container {
+            flex: 1;
+            background: var(--sky-100);
+            height: 35px;
+            border-radius: 50px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .bar-progress {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--sky-400), var(--sky-600));
+            border-radius: 50px;
+            transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 15px;
+            color: white;
+            font-weight: 800;
+            font-size: 14px;
+        }
+
+        /* Custom Bullet List */
+        .custom-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .custom-list li {
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+            font-size: 16px;
+        }
+
+        .custom-list li i {
+            color: var(--sky-500);
+            margin-top: 4px;
+            font-size: 18px;
+        }
+
+        /* Banner Illustration Wrapper */
+        .illustration-panel {
+            background: linear-gradient(135deg, var(--sky-100) 0%, #ffffff 100%);
+            border-radius: 24px;
+            height: 320px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #ffffff;
+            box-shadow: inset 0 10px 20px rgba(255,255,255,0.6);
+            position: relative;
+        }
+
+        .floating-badge {
+            position: absolute;
+            background: white;
+            padding: 10px 18px;
+            border-radius: 50px;
+            box-shadow: 0 10px 20px rgba(2, 132, 199, 0.1);
+            font-weight: 700;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid var(--sky-100);
+            animation: bounce-float 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes bounce-float {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-12px); }
+        }
+
+        /* THINK Checklist */
+        .checklist-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .think-card {
+            background: white;
+            border: 2px solid var(--sky-100);
+            border-radius: 16px;
+            padding: 15px;
+            text-align: center;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+        }
+
+        .think-card:hover, .think-card.active {
+            border-color: var(--sky-500);
+            background: var(--sky-50);
+            transform: scale(1.05);
+        }
+
+        .think-letter {
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--sky-500);
+            margin-bottom: 5px;
+        }
+
+        /* Interactive Slider Quiz Panel */
+        .quiz-engine {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .quiz-slide-wrapper {
+            position: relative;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .quiz-question-slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            opacity: 0;
+            transform: scale(0.9) translateY(30px);
+            pointer-events: none;
+            transition: var(--transition-smooth);
+        }
+
+        .quiz-question-slide.active {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+            pointer-events: auto;
+        }
+
+        .quiz-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-weight: 700;
+            color: var(--sky-600);
+        }
+
+        .quiz-progress-track {
+            height: 6px;
+            background: var(--sky-100);
+            border-radius: 10px;
+            width: 100%;
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+
+        .quiz-progress-fill {
+            height: 100%;
+            background: var(--sky-500);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .option-button {
+            background: white;
+            border: 2px solid var(--sky-100);
+            padding: 16px 24px;
+            border-radius: 16px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            font-size: 16px;
+            text-align: left;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .option-button:hover:not(:disabled) {
+            border-color: var(--sky-400);
+            background: var(--sky-50);
+            transform: translateY(-2px);
+        }
+
+        .option-indicator {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid var(--sky-300);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: transparent;
+            transition: var(--transition-smooth);
+            flex-shrink: 0;
+        }
+
+        /* Success & Fail states */
+        .option-button.correct {
+            border-color: var(--emerald-500) !important;
+            background: #ecfdf5 !important;
+            color: #065f46 !important;
+        }
+
+        .option-button.correct .option-indicator {
+            background: var(--emerald-500);
+            border-color: var(--emerald-500);
+            color: white;
+        }
+
+        .option-button.wrong {
+            border-color: var(--rose-500) !important;
+            background: #fff1f2 !important;
+            color: #9f1239 !important;
+        }
+
+        .option-button.wrong .option-indicator {
+            background: var(--rose-500);
+            border-color: var(--rose-500);
+            color: white;
+        }
+
+        /* Slide Cover Custom Card Animation */
+        .pulse-circle {
+            position: absolute;
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(14,165,233,0.15) 0%, rgba(14,165,233,0) 70%);
+            animation: ripple 4s infinite linear;
+        }
+
+        @keyframes ripple {
+            0% { transform: scale(0.6); opacity: 1; }
+            100% { transform: scale(1.6); opacity: 0; }
+        }
+
+        /* Result View */
+        .result-view {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .trophy-anim {
+            font-size: 80px;
+            color: #facc15;
+            animation: bounce-trophy 1.5s infinite alternate cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        @keyframes bounce-trophy {
+            0% { transform: translateY(0) rotate(-5deg); }
+            100% { transform: translateY(-15px) rotate(5deg); }
+        }
+
+        /* CSS for click interactions on reveal boxes */
+        .hidden-fact {
+            display: none;
+            margin-top: 15px;
+            font-size: 15px;
+            color: var(--slate-600);
+            animation: fadeIn 0.3s forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Tombol Navigasi Footer untuk Manual Saja */
+        .action-footer {
+            height: 60px;
+            display: flex;
+            justify-content: flex-end;
+            padding: 0 40px;
+            gap: 15px;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.5);
+            border-top: 1px solid var(--sky-100);
+        }
+
+        .action-btn {
+            background: var(--sky-500);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 10px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition-smooth);
+        }
+
+        .action-btn:hover {
+            background: var(--sky-600);
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+<body>
+
+<!-- Ambient Moving Clouds -->
+<div class="decor-cloud" style="width: 150px; height: 50px; top: 10%; left: -150px; animation-delay: 0s;"></div>
+<div class="decor-cloud" style="width: 250px; height: 70px; top: 25%; left: -250px; animation-delay: 5s;"></div>
+<div class="decor-cloud" style="width: 180px; height: 60px; top: 75%; left: -180px; animation-delay: 12s;"></div>
+
+<div class="app-window">
+    
+    <!-- TOP NAVBAR -->
+    <header class="top-bar">
+        <div class="logo-area">
+            <div class="logo-badge">
+                <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+            <div>
+                <div class="logo-title">RUANG MURID</div>
+                <div style="font-size: 11px; color: var(--slate-400); font-weight: 700; letter-spacing: 0.5px;">MEDIA PEMBELAJARAN INTERAKTIF</div>
+            </div>
+        </div>
+        
+        <div class="top-controls">
+            <div class="control-btn" id="soundToggle" onclick="toggleMute()">
+                <i class="fa-solid fa-volume-high" id="soundIcon"></i> <span>Suara: ON</span>
+            </div>
+            <div style="background: var(--sky-100); padding: 5px 12px; border-radius: 10px; font-weight: 800; font-size: 12px; color: var(--sky-700)">
+                Informatika VII
+            </div>
+        </div>
+    </header>
+
+    <!-- WORKSPACE BODY WITH INTEGRATED SIDEBAR -->
+    <div class="workspace-body">
+        
+        <!-- SIDEBAR NAVIGATION SYSTEM (Alternatif Baru Pengganti Slider Linear) -->
+        <nav class="navigation-sidebar" id="appSidebar" style="display: none;">
+            <div class="sidebar-section-title">Beranda</div>
+            <div class="sidebar-nav-item" onclick="jumpToSlide(0)" id="nav-0">
+                <i class="fa-solid fa-house"></i> Sampul Kelas
+            </div>
+
+            <div class="sidebar-section-title">Pendahuluan</div>
+            <div class="sidebar-nav-item" onclick="jumpToSlide(1)" id="nav-1">
+                <i class="fa-solid fa-circle-info"></i> Petunjuk Belajar
+            </div>
+            <div class="sidebar-nav-item" onclick="jumpToSlide(2)" id="nav-2">
+                <i class="fa-solid fa-star"></i> Tujuan Belajar
+            </div>
+
+            <div class="sidebar-section-title">Materi Utama</div>
+            <div class="sidebar-nav-item" onclick="jumpToSlide(3)" id="nav-3">
+                <i class="fa-solid fa-book-open"></i> Apa itu Bullying?
+            </div>
+            <div class="sidebar-nav-item" onclick="jumpToSlide(4)" id="nav-4">
+                <i class="fa-solid fa-shapes"></i> Jenis Perundungan
+            </div>
+            <div class="sidebar-nav-item" onclick="jumpToSlide(5)" id="nav-5">
+                <i class="fa-solid fa-chart-simple"></i> Angka Kasus siber
+            </div>
+            <div class="sidebar-nav-item" onclick="jumpToSlide(6)" id="nav-6">
+                <i class="fa-solid fa-circle-question"></i> Kenapa Terjadi?
+            </div>
+            <div class="sidebar-nav-item" onclick="jumpToSlide(7)" id="nav-7">
+                <i class="fa-solid fa-skull-crossbones"></i> Dampak Korban
+            </div>
+            <div class="sidebar-nav-item" onclick="jumpToSlide(8)" id="nav-8">
+                <i class="fa-solid fa-shield-halved"></i> Penanganan 3M
+            </div>
+            <div class="sidebar-nav-item" onclick="jumpToSlide(9)" id="nav-9">
+                <i class="fa-solid fa-gavel"></i> Regulasi UU ITE
+            </div>
+            <div class="sidebar-nav-item" onclick="jumpToSlide(10)" id="nav-10">
+                <i class="fa-solid fa-lightbulb"></i> Formula T.H.I.N.K
+            </div>
+
+            <div class="sidebar-section-title">Evaluasi & Refleksi</div>
+            <div class="sidebar-nav-item" onclick="jumpToSlide(11)" id="nav-11">
+                <i class="fa-solid fa-clipboard-check"></i> Rangkuman Modul
+            </div>
+            <div class="sidebar-nav-item" onclick="jumpToSlide(12)" id="nav-12">
+                <i class="fa-solid fa-gamepad"></i> Permainan Kuis
+            </div>
+        </nav>
+
+        <!-- VIEWPORT PRESENTASI -->
+        <main class="deck-viewport" id="viewport">
+
+            <!-- SLIDE 0: COVER -->
+            <section class="slide active" id="slide-0">
+                <div class="grid-2" style="grid-template-columns: 1fr 1fr;">
+                    <div style="z-index: 5;">
+                        <div style="background: var(--sky-100); color: var(--sky-700); padding: 6px 16px; border-radius: 50px; font-weight: 800; font-size: 13px; display: inline-flex; align-items: center; gap: 8px; margin-bottom: 20px;">
+                            <span class="pulse-circle" style="width: 10px; height: 10px; position: relative; background: var(--sky-500); display: inline-block; border-radius: 50%;"></span>
+                            Modul Kewargaan Digital
+                        </div>
+                        <h1 style="font-size: 46px; line-height: 1.1; margin-bottom: 20px; color: var(--slate-800)">
+                            Lawan & Atasi <br><span style="color: var(--sky-500)">Cyberbullying</span>
+                        </h1>
+                        <p style="font-size: 18px; color: var(--slate-600); margin-bottom: 30px; font-weight: 500;">
+                            Mari membangun masa depan internet sehat yang penuh dengan kedamaian, empati, dan kolaborasi tanpa perundungan siber.
+                        </p>
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: center; position: relative;">
+                        <div class="pulse-circle"></div>
+                        <div class="pulse-circle" style="animation-delay: 2s;"></div>
+                        <i class="fa-solid fa-user-shield" style="font-size: 160px; color: var(--sky-500); filter: drop-shadow(0 15px 30px rgba(14,165,233,0.3)); z-index: 2;"></i>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 1: PETUNJUK PEMBELAJARAN -->
+            <section class="slide" id="slide-1">
+                <h2 class="slide-heading"><i class="fa-solid fa-circle-info"></i> Petunjuk Pembelajaran</h2>
+                <p class="slide-subtitle">Ikuti langkah berikut agar belajarmu berjalan maksimal.</p>
+                <div class="grid-2">
+                    <div class="card" style="display:flex; flex-direction:column; gap:12px;">
+                        <p style="font-size:16px;"><strong>1. Eksplorasi Sidebar Bebas:</strong> Gunakan menu navigasi di bagian samping kiri layar untuk menjelajahi modul secara acak tanpa batasan.</p>
+                        <p style="font-size:16px;"><strong>2. Kartu Interaktif:</strong> Temukan elemen yang bertuliskan "Klik Untuk Detail" untuk membuka pengetahuan tersembunyi.</p>
+                        <p style="font-size:16px;"><strong>3. Evaluasi Kuis:</strong> Kerjakan 10 soal di akhir sesi. Pilihan jawaban akan terekam otomatis.</p>
+                        <p style="font-size:16px;"><strong>4. Pengaturan Suara:</strong> Kamu bisa menyalakan/mematikan efek musik interaktif melalui tombol kontrol audio di sudut kanan atas.</p>
+                    </div>
+                    <div class="illustration-panel">
+                        <i class="fa-solid fa-circle-question" style="font-size: 100px; color: var(--indigo-500)"></i>
+                        <div class="floating-badge" style="bottom: 30px;"><i class="fa-solid fa-lightbulb" style="color:var(--amber-500)"></i> Sangat Mudah!</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 2: TUJUAN PEMBELAJARAN (DEEP LEARNING ALIGNED) -->
+            <section class="slide" id="slide-2">
+                <h2 class="slide-heading"><i class="fa-solid fa-star"></i> Tujuan Pembelajaran Mendalam</h2>
+                <p class="slide-subtitle">Kurikulum Pembelajaran Mendalam (Deep Learning) berfokus pada 3 aspek:</p>
+                <div class="tiles-container">
+                    <div class="card" style="border-top: 5px solid var(--sky-500)">
+                        <div class="icon-box" style="color:var(--sky-500)"><i class="fa-solid fa-brain"></i></div>
+                        <h3 style="font-size:16px; margin-bottom:5px;">Pemahaman Kognitif</h3>
+                        <p style="font-size:13px; color:var(--slate-600)">Menganalisis definisi cyberbullying, mengidentifikasi jenis perundungan siber, serta memahami regulasi hukum UU ITE.</p>
+                    </div>
+                    <div class="card" style="border-top: 5px solid var(--rose-500)">
+                        <div class="icon-box" style="color:var(--rose-500)"><i class="fa-solid fa-hand-holding-heart"></i></div>
+                        <h3 style="font-size:16px; margin-bottom:5px;">Empati & Karakter</h3>
+                        <p style="font-size:13px; color:var(--slate-600)">Menumbuhkan kepekaan sosial, memahami dampak kesehatan mental korban, serta membiasakan etika digital yang santun.</p>
+                    </div>
+                    <div class="card" style="border-top: 5px solid var(--emerald-500)">
+                        <div class="icon-box" style="color:var(--emerald-500)"><i class="fa-solid fa-shield-halved"></i></div>
+                        <h3 style="font-size:16px; margin-bottom:5px;">Aksi Kewargaan</h3>
+                        <p style="font-size:13px; color:var(--slate-600)">Menerapkan strategi taktis 3M (Abaikan, Blokir, Laporkan) dan menyaring informasi dengan formula etis T.H.I.N.K.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 3: DEFINISI -->
+            <section class="slide" id="slide-3">
+                <h2 class="slide-heading"><i class="fa-solid fa-book-open"></i> Apa itu Cyberbullying?</h2>
+                <p class="slide-subtitle">Mari pahami esensi dari perundungan dunia maya.</p>
+                <div class="grid-2">
+                    <div class="card" style="height: 100%; display: flex; flex-direction: column; justify-content: center;">
+                        <p style="font-size: 18px; line-height: 1.7; color: var(--slate-600)">
+                            <strong style="color: var(--sky-700); font-size: 20px;">Cyberbullying</strong> adalah tindakan agresif yang dilakukan secara sengaja dan berulang kali menggunakan media atau platform digital (gadget, media sosial, chat messenger) untuk menyerang orang tertentu.
+                        </p>
+                        <div style="background: var(--sky-50); border-left: 5px solid var(--sky-400); padding: 15px; border-radius: 0 16px 16px 0; margin-top: 20px;">
+                            <p style="font-size: 16px; font-style: italic; color: var(--sky-700);">
+                                "Di balik layar gadget, ada perasaan nyata milik manusia nyata. Ketikanmu memiliki dampak besar."
+                            </p>
+                        </div>
+                    </div>
+                    <div class="illustration-panel">
+                        <i class="fa-solid fa-mobile-screen" style="font-size: 130px; color: var(--sky-400)"></i>
+                        <i class="fa-solid fa-heart-crack" style="font-size: 50px; color: var(--rose-500); position: absolute; top: 80px; right: 100px; animation: bounce-float 2.5s infinite alternate;"></i>
+                        <div class="floating-badge" style="bottom: 40px; left: 30px;">
+                            <i class="fa-solid fa-circle-exclamation" style="color: var(--rose-500)"></i> Tidak Sehat!
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 4: JENIS-JENIS -->
+            <section class="slide" id="slide-4">
+                <h2 class="slide-heading"><i class="fa-solid fa-shapes"></i> Jenis-Jenis Cyberbullying</h2>
+                <p class="slide-subtitle">Klik setiap kartu untuk melihat penjelasan detail!</p>
+                <div class="tiles-container">
+                    <div class="card" onclick="revealFact(this)">
+                        <div class="icon-box"><i class="fa-solid fa-fire-flame-curved" style="color: var(--rose-500)"></i></div>
+                        <h3>Flaming</h3>
+                        <div class="hidden-fact">Pengiriman pesan bernada marah, memprovokasi, serta penuh makian kasar di forum publik online.</div>
+                        <div style="margin-top:15px; font-size:13px; font-weight:800; color:var(--sky-500)">KLIK UNTUK DETAIL</div>
+                    </div>
+                    <div class="card" onclick="revealFact(this)">
+                        <div class="icon-box"><i class="fa-solid fa-mask" style="color: #6366f1"></i></div>
+                        <h3>Impersonation</h3>
+                        <div class="hidden-fact">Meniru identitas orang lain untuk mengirimkan pesan buruk atau merusak nama baik korban.</div>
+                        <div style="margin-top:15px; font-size:13px; font-weight:800; color:var(--sky-500)">KLIK UNTUK DETAIL</div>
+                    </div>
+                    <div class="card" onclick="revealFact(this)">
+                        <div class="icon-box"><i class="fa-solid fa-eye" style="color: var(--emerald-500)"></i></div>
+                        <h3>Cyberstalking</h3>
+                        <div class="hidden-fact">Menguntit, memonitor, dan melecehkan korban secara intens di dunia digital sehingga korban ketakutan.</div>
+                        <div style="margin-top:15px; font-size:13px; font-weight:800; color:var(--sky-500)">KLIK UNTUK DETAIL</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 5: STATISTIK -->
+            <section class="slide" id="slide-5">
+                <h2 class="slide-heading"><i class="fa-solid fa-chart-simple"></i> Angka Bullying di Indonesia</h2>
+                <p class="slide-subtitle">Statistik nasional terkait kasus perundungan siber berdasarkan SNPHAR.</p>
+                <div class="grid-2">
+                    <div class="card" style="display: flex; flex-direction: column; justify-content: center;">
+                        <h3 style="margin-bottom: 15px; color: var(--slate-800)">Perbandingan Korban Remaja</h3>
+                        <p style="font-size: 15px; color: var(--slate-600); margin-bottom: 25px;">
+                            Berikut statistik representatif perundungan siber yang terjadi pada kelompok usia sekolah:
+                        </p>
+                        <div class="bar-chart">
+                            <div class="chart-row">
+                                <div class="label-chart">Anak Laki-laki</div>
+                                <div class="bar-container">
+                                    <div class="bar-progress" data-width="14.49%">14.49%</div>
+                                </div>
+                            </div>
+                            <div class="chart-row">
+                                <div class="label-chart">Anak Perempuan</div>
+                                <div class="bar-container">
+                                    <div class="bar-progress" data-width="13.78%">13.78%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="illustration-panel">
+                        <i class="fa-solid fa-chart-line" style="font-size: 100px; color: var(--sky-400)"></i>
+                        <div class="floating-badge" style="top: 30px; left: 30px;"><i class="fa-solid fa-triangle-exclamation" style="color: gold"></i> Perlu Perhatian</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 6: PENYEBAB -->
+            <section class="slide" id="slide-6">
+                <h2 class="slide-heading"><i class="fa-solid fa-circle-question"></i> Mengapa Cyberbullying Terjadi?</h2>
+                <p class="slide-subtitle">Mari pahami akar masalah psikososial di internet.</p>
+                <div class="grid-2">
+                    <div class="card">
+                        <div class="icon-box"><i class="fa-solid fa-user-secret"></i></div>
+                        <h3 style="margin-bottom: 10px;">Anonimitas Tinggi</h3>
+                        <p style="font-size: 15px; color: var(--slate-600);">
+                            Identitas palsu memudahkan pelaku merasa aman dan "bebas dari jeratan hukum" karena tidak terlihat secara langsung secara fisik di dunia nyata.
+                        </p>
+                    </div>
+                    <div class="card">
+                        <div class="icon-box" style="color: var(--rose-500); background: #fff1f2;"><i class="fa-solid fa-heart-crack"></i></div>
+                        <h3 style="margin-bottom: 10px;">Minimnya Empati Digital</h3>
+                        <p style="font-size: 15px; color: var(--slate-600);">
+                            Tidak bertatap muka langsung membuat pelaku kehilangan kepekaan emosional, sehingga mereka tidak sadar seberapa hancurnya hati sang korban.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 7: DAMPAK -->
+            <section class="slide" id="slide-7">
+                <h2 class="slide-heading"><i class="fa-solid fa-skull-crossbones"></i> Dampak Merusak Bagi Korban</h2>
+                <p class="slide-subtitle">Satu ketikan jahat bisa menghancurkan masa depan orang lain.</p>
+                <div class="grid-2">
+                    <div class="card" style="height: 100%; display: flex; flex-direction: column; justify-content: center;">
+                        <ul class="custom-list">
+                            <li>
+                                <i class="fa-solid fa-brain"></i>
+                                <div>
+                                    <strong>Secara Mental / Psikologis</strong>
+                                    <p style="font-size: 14px; color: var(--slate-600)">Korban merasa depresi, stres berat, kehilangan kepercayaan diri, hingga timbul rasa cemas ekstrim bersosialisasi.</p>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fa-solid fa-bed-pulse"></i>
+                                <div>
+                                    <strong>Secara Fisik</strong>
+                                    <p style="font-size: 14px; color: var(--slate-600)">Sulit beristirahat (insomnia), perubahan metabolisme tubuh secara ekstrem, sakit kepala, hingga sakit lambung.</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="illustration-panel" style="background: linear-gradient(135deg, #ffe4e6 0%, #ffffff 100%);">
+                        <i class="fa-solid fa-heart-crack" style="font-size: 110px; color: var(--rose-500)"></i>
+                        <div class="floating-badge" style="top: 30px; right: 30px; color: var(--rose-500)"><i class="fa-solid fa-shield-halved"></i> Harus Dicegah!</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 8: STRATEGI 3M -->
+            <section class="slide" id="slide-8">
+                <h2 class="slide-heading"><i class="fa-solid fa-shield-halved"></i> Atasi dengan Strategi "3M"</h2>
+                <p class="slide-subtitle">Langkah taktis yang wajib kamu lakukan saat berhadapan dengan perundung digital.</p>
+                <div class="tiles-container">
+                    <div class="card" style="text-align: center; border-bottom: 5px solid var(--slate-400)">
+                        <div class="icon-box" style="margin: 0 auto 15px;"><i class="fa-solid fa-eye-slash"></i></div>
+                        <h3>Abaikan</h3>
+                        <p style="font-size: 14px; color: var(--slate-600); margin-top: 10px;">Jangan membalas provokasi. Pelaku siber mencari panggung tanggapan korban.</p>
+                    </div>
+                    <div class="card" style="text-align: center; border-bottom: 5px solid var(--rose-500)">
+                        <div class="icon-box" style="margin: 0 auto 15px; color: var(--rose-500)"><i class="fa-solid fa-user-lock"></i></div>
+                        <h3>Blokir</h3>
+                        <p style="font-size: 14px; color: var(--slate-600); margin-top: 10px;">Segera putus interaksi dengan memanfaatkan tombol 'Block' di media sosial.</p>
+                    </div>
+                    <div class="card" style="text-align: center; border-bottom: 5px solid var(--emerald-500)">
+                        <div class="icon-box" style="margin: 0 auto 15px; color: var(--emerald-500)"><i class="fa-solid fa-bullhorn"></i></div>
+                        <h3>Laporkan</h3>
+                        <p style="font-size: 14px; color: var(--slate-600); margin-top: 10px;">Kumpulkan tangkapan layar (bukti) dan lapor ke guru atau pihak kepolisian.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 9: HUKUM / UU ITE -->
+            <section class="slide" id="slide-9">
+                <h2 class="slide-heading"><i class="fa-solid fa-gavel"></i> Aspek Regulasi Hukum (UU ITE)</h2>
+                <p class="slide-subtitle">Cyberbullying bukanlah lelucon biasa, melainkan pelanggaran hukum pidana berat.</p>
+                <div class="grid-2">
+                    <div class="card" style="padding: 15px; overflow-y: auto;">
+                        <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                            <thead>
+                                <tr style="border-bottom: 2px solid var(--sky-200); color: var(--sky-700);">
+                                    <th style="padding: 10px 5px; font-size:16px;">Pasal</th>
+                                    <th style="padding: 10px 5px; font-size:16px;">Tindak Pidana siber</th>
+                                </tr>
+                            </thead>
+                            <tbody style="font-size: 14px; color: var(--slate-600);">
+                                <tr style="border-bottom: 1px solid var(--sky-100);">
+                                    <td style="padding: 12px 5px; font-weight:700;">Pasal 27 ayat 3</td>
+                                    <td style="padding: 12px 5px;">Pencemaran nama baik, penghinaan di media elektronik.</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 12px 5px; font-weight:700;">Pasal 45B</td>
+                                    <td style="padding: 12px 5px;">Ancaman kekerasan siber untuk menakut-nakuti korban secara personal.</td>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card" style="border-left: 6px solid var(--rose-500); display: flex; flex-direction: column; justify-content: center;">
+                        <h3 style="color: var(--rose-500); margin-bottom: 10px;"><i class="fa-solid fa-circle-exclamation"></i> Sanksi Berat Menanti</h3>
+                        <p style="font-size: 15px; color: var(--slate-600); line-height: 1.6;">
+                            Pelanggar siber terancam sanksi penjara maksimal <strong>4 hingga 6 tahun</strong> dan denda administrasi fantastis mencapai <strong>Rp 750 Juta s.d 1 Miliar Rupiah</strong>.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 10: THINK FORMULA -->
+            <section class="slide" id="slide-10">
+                <h2 class="slide-heading"><i class="fa-solid fa-lightbulb"></i> Prinsip Berpikir T.H.I.N.K</h2>
+                <p class="slide-subtitle">Terapkan prinsip ini sebelum menekan tombol "Kirim" atau membuat komentar.</p>
+                <div class="checklist-grid">
+                    <div class="think-card" onclick="toggleThink(this)">
+                        <div class="think-letter">T</div>
+                        <strong style="font-size:14px;">True</strong>
+                        <p style="font-size:11px; color: var(--slate-600); margin-top:5px;">Apakah informasi ini benar/valid?</p>
+                    </div>
+                    <div class="think-card" onclick="toggleThink(this)">
+                        <div class="think-letter">H</div>
+                        <strong style="font-size:14px;">Helpful</strong>
+                        <p style="font-size:11px; color: var(--slate-600); margin-top:5px;">Apakah ini membantu orang lain?</p>
+                    </div>
+                    <div class="think-card" onclick="toggleThink(this)">
+                        <div class="think-letter">I</div>
+                        <strong style="font-size:14px;">Inspiring</strong>
+                        <p style="font-size:11px; color: var(--slate-600); margin-top:5px;">Apakah bernilai dasar inspirasi?</p>
+                    </div>
+                    <div class="think-card" onclick="toggleThink(this)">
+                        <div class="think-letter">N</div>
+                        <strong style="font-size:14px;">Necessary</strong>
+                        <p style="font-size:11px; color: var(--slate-600); margin-top:5px;">Pentingkah hal ini diucapkan?</p>
+                    </div>
+                    <div class="think-card" onclick="toggleThink(this)">
+                        <div class="think-letter">K</div>
+                        <strong style="font-size:14px;">Kind</strong>
+                        <p style="font-size:11px; color: var(--slate-600); margin-top:5px;">Sudahkah perkataan ini sopan?</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 11: RANGKUMAN -->
+            <section class="slide" id="slide-11">
+                <h2 class="slide-heading"><i class="fa-solid fa-clipboard-check"></i> Rangkuman Reflektif</h2>
+                <p class="slide-subtitle">Intisari penting untuk menanamkan pemahaman mendalam.</p>
+                <div class="grid-2">
+                    <div class="card" style="display:flex; flex-direction:column; justify-content:center; gap:12px;">
+                        <p style="font-size:15px; line-height:1.6;">💡 <strong>Keadilan di Tangan Kita:</strong> Internet bukanlah ruang tanpa aturan. Apa yang kita ketik dilindungi oleh regulasi hukum UU ITE.</p>
+                        <p style="font-size:15px; line-height:1.6;">🤝 <strong>Kekuatan Empati:</strong> Di balik setiap user ID terdapat manusia dengan perasaan utuh. Menghentikan cyberbullying dimulai dengan menaruh kepedulian tulus.</p>
+                        <p style="font-size:15px; line-height:1.6;">🛡️ <strong>Siaga Aksi:</strong> Saat perundungan terjadi, kita bukan sekadar penonton pasif. Jadilah pelindung dengan menerapkan 3M dan prinsip etis T.H.I.N.K.</p>
+                    </div>
+                    <div class="illustration-panel" style="background: linear-gradient(135deg, var(--sky-100) 0%, #ffffff 100%);">
+                        <i class="fa-solid fa-bookmark" style="font-size: 100px; color: var(--emerald-500)"></i>
+                        <div class="floating-badge" style="bottom:30px;"><i class="fa-solid fa-quote-left"></i> Internet Sehat, Kita Bahagia!</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 12: QUIZ INTRO -->
+            <section class="slide" id="slide-12">
+                <div style="text-align: center; max-width: 600px; margin: 0 auto;">
+                    <i class="fa-solid fa-gamepad" style="font-size: 100px; color: var(--sky-500); margin-bottom: 25px; animation: bounce-float 2.5s infinite alternate;"></i>
+                    <h1 style="font-size: 38px; margin-bottom: 15px;">Evaluasi Interaktif</h1>
+                    <p style="font-size: 18px; color: var(--slate-600); margin-bottom: 30px;">
+                        Uji wawasan dan naluri bijak bersosial media Anda dengan menyelesaikan 10 soal kuis adaptif berikut ini.
+                    </p>
+                </div>
+            </section>
+
+            <!-- SLIDE 13: MAIN QUIZ -->
+            <section class="slide" id="slide-13">
+                <div class="quiz-engine">
+                    <div class="quiz-meta">
+                        <span id="quiz-question-number">Pertanyaan 1 dari 10</span>
+                        <span>Skor saat ini: <strong id="live-score" style="color:var(--emerald-500)">0</strong></span>
+                    </div>
+                    <div class="quiz-progress-track">
+                        <div class="quiz-progress-fill" id="quiz-progress-bar"></div>
+                    </div>
+
+                    <div class="quiz-slide-wrapper">
+                        <!-- Dynamic Question Holder via Javascript -->
+                        <div id="quiz-cards-container"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 14: RESULT -->
+            <section class="slide" id="slide-14">
+                <div class="result-view">
+                    <div class="trophy-anim"><i class="fa-solid fa-trophy"></i></div>
+                    <h1 style="font-size: 40px; margin-top: 20px;">Luar Biasa!</h1>
+                    <p style="font-size: 18px; color: var(--slate-600); margin-top: 10px; max-width: 500px;">
+                        Kamu telah menyelesaikan semua tantangan kuis siber dengan hasil berikut:
+                    </p>
+                    <div style="margin: 25px 0; background: var(--sky-50); border: 2px solid var(--sky-200); padding: 15px 40px; border-radius: 20px;">
+                        <span style="font-size: 16px; font-weight:700; color:var(--slate-600);">SKOR AKHIR</span><br>
+                        <strong style="font-size: 48px; color: var(--sky-600);" id="final-score-text">100 / 100</strong>
+                    </div>
+                    <button class="nav-btn" onclick="resetQuiz()">
+                        <i class="fa-solid fa-rotate-left"></i> Ulangi Kuis
+                    </button>
+                </div>
+            </section>
+
+            <!-- SLIDE 15: OUTRO -->
+            <section class="slide" id="slide-15">
+                <div style="text-align: center; max-width: 650px; margin: 0 auto;">
+                    <h1 style="font-size: 42px; color: var(--sky-700); margin-bottom: 15px;">Terima Kasih!</h1>
+                    <p style="font-size: 18px; color: var(--slate-600); margin-bottom: 40px;">
+                        Mari berpartisipasi menjaga harmoni persahabatan, menghormati sesama, serta menyebarkan inovasi positif di dunia digital.
+                    </p>
+                    <div style="display: flex; gap: 20px; justify-content: center;">
+                        <div class="card" style="display: flex; align-items: center; gap: 10px; padding: 12px 24px; cursor: pointer;">
+                            <i class="fa-solid fa-earth-americas" style="color: var(--sky-500); font-size:20px;"></i>
+                            <span style="font-weight:700;">internetsehat.id</span>
+                        </div>
+                        <div class="card" style="display: flex; align-items: center; gap: 10px; padding: 12px 24px; cursor: pointer;">
+                            <i class="fa-solid fa-heart" style="color: var(--rose-500); font-size:20px;"></i>
+                            <span style="font-weight:700;">stopbullying.or.id</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- ACTION FOOTER BAR (Sederhana untuk navigasi manual alternatif) -->
+    <footer class="action-footer">
+        <button class="action-btn" style="background: var(--slate-600);" id="prevSectionBtn" onclick="goToPrevSection()">
+            <i class="fa-solid fa-arrow-left"></i> Sebelumnya
+        </button>
+        <button class="action-btn" id="nextSectionBtn" onclick="goToNextSection()">
+            Berikutnya <i class="fa-solid fa-arrow-right"></i>
+        </button>
+    </footer>
+
+</div>
+
+<!-- JavaScript System Logic -->
+<script>
+    // 1. SOUND SYSTEM & SYNTHESIZER (WEB AUDIO API)
+    let isMuted = false;
+    
+    function playAudio(type) {
+        if (isMuted) return;
+        
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        
+        if (type === 'click') {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(450, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(1000, audioCtx.currentTime + 0.1);
+            
+            gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.12);
+            
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.12);
+        } else if (type === 'correct') {
+            const now = audioCtx.currentTime;
+            const freqs = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+            freqs.forEach((f, i) => {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(f, now + (i * 0.08));
+                gain.gain.setValueAtTime(0.12, now + (i * 0.08));
+                gain.gain.exponentialRampToValueAtTime(0.005, now + (i * 0.08) + 0.4);
+                
+                osc.start(now + (i * 0.08));
+                osc.stop(now + (i * 0.08) + 0.4);
+            });
+        } else if (type === 'wrong') {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(160, audioCtx.currentTime);
+            osc.frequency.linearRampToValueAtTime(110, audioCtx.currentTime + 0.25);
+            
+            gain.gain.setValueAtTime(0.18, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.25);
+            
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.25);
+        } else if (type === 'victory') {
+            const now = audioCtx.currentTime;
+            const notes = [261.63, 329.63, 392.00, 523.25, 659.25, 783.99, 1046.50];
+            notes.forEach((f, i) => {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(f, now + (i * 0.12));
+                gain.gain.setValueAtTime(0.15, now + (i * 0.12));
+                gain.gain.exponentialRampToValueAtTime(0.005, now + (i * 0.12) + 0.5);
+                
+                osc.start(now + (i * 0.12));
+                osc.stop(now + (i * 0.12) + 0.5);
+            });
+        }
+    }
+
+    function toggleMute() {
+        isMuted = !isMuted;
+        const icon = document.getElementById('soundIcon');
+        const text = document.querySelector('#soundToggle span');
+        if (isMuted) {
+            icon.className = 'fa-solid fa-volume-xmark';
+            text.textContent = 'Suara: OFF';
+        } else {
+            icon.className = 'fa-solid fa-volume-high';
+            text.textContent = 'Suara: ON';
+            playAudio('click');
+        }
+    }
+
+    // 2. NEW SLIDE ENGINE - Non-Linear Sidebar-Driven System
+    let currentSlideIndex = 0;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    
+    function updateSlide() {
+        slides.forEach((slide, index) => {
+            slide.className = 'slide';
+            if (index === currentSlideIndex) {
+                slide.classList.add('active');
+            }
+        });
+
+        // Tampilkan Sidebar hanya setelah melewati Cover/Slide Pembuka (Slide 0)
+        const sidebar = document.getElementById('appSidebar');
+        if (currentSlideIndex > 0) {
+            sidebar.style.display = 'flex';
+        } else {
+            sidebar.style.display = 'none';
+        }
+
+        // Animasi baris grafik statistik saat masuk halaman grafik (Slide 5)
+        if (currentSlideIndex === 5) {
+            document.querySelectorAll('.bar-progress').forEach(bar => {
+                const widthVal = bar.getAttribute('data-width');
+                setTimeout(() => { bar.style.width = widthVal; }, 200);
+            });
+        }
+
+        // Atur status aktif pada link sidebar menu
+        document.querySelectorAll('.sidebar-nav-item').forEach(item => {
+            item.classList.remove('active');
+        });
+        const activeNavItem = document.getElementById(`nav-${currentSlideIndex}`);
+        if (activeNavItem) {
+            activeNavItem.classList.add('active');
+        }
+
+        // Sembunyikan Navigasi manual bawah jika sedang berada di dalam Kuis Aktif (Slide 13)
+        const footerNextBtn = document.getElementById('nextSectionBtn');
+        const footerPrevBtn = document.getElementById('prevSectionBtn');
+        
+        if (currentSlideIndex === 13) {
+            footerNextBtn.style.display = 'none';
+            footerPrevBtn.style.display = 'none';
+        } else {
+            footerNextBtn.style.display = 'flex';
+            footerPrevBtn.style.display = 'flex';
+        }
+
+        // Atur fungsionalitas tombol berikutnya di halaman paling akhir (Slide 15)
+        if (currentSlideIndex === totalSlides - 1) {
+            footerNextBtn.innerHTML = `Mulai Lagi <i class="fa-solid fa-arrow-rotate-left"></i>`;
+        } else {
+            footerNextBtn.innerHTML = `Berikutnya <i class="fa-solid fa-arrow-right"></i>`;
+        }
+
+        // Matikan tombol "Sebelumnya" saat berada di halaman cover
+        footerPrevBtn.disabled = (currentSlideIndex === 0);
+    }
+
+    function jumpToSlide(index) {
+        if (index >= 0 && index < totalSlides) {
+            currentSlideIndex = index;
+            playAudio('click');
+            updateSlide();
+        }
+    }
+
+    function goToNextSection() {
+        // Jika sudah di slide terakhir, arahkan kembali ke cover pembuka secara melingkar
+        if (currentSlideIndex === totalSlides - 1) {
+            jumpToSlide(0);
+            return;
+        }
+        if (currentSlideIndex < totalSlides - 1) {
+            currentSlideIndex++;
+            playAudio('click');
+            updateSlide();
+        }
+    }
+
+    function goToPrevSection() {
+        if (currentSlideIndex > 0) {
+            currentSlideIndex--;
+            playAudio('click');
+            updateSlide();
+        }
+    }
+
+    // Keyboard controls support
+    document.addEventListener('keydown', (e) => {
+        if (currentSlideIndex === 13) return; // Nonaktifkan panah saat kuis dikerjakan
+        if (e.key === 'ArrowRight') goToNextSection();
+        if (e.key === 'ArrowLeft') goToPrevSection();
+    });
+
+    // 3. REVEAL FACT SLIDE INTERACTION
+    function revealFact(card) {
+        playAudio('click');
+        const factText = card.querySelector('.hidden-fact');
+        const statusText = card.querySelector('div[style*="font-weight:800"]');
+        if (factText.style.display === 'block') {
+            factText.style.display = 'none';
+            statusText.textContent = "KLIK UNTUK DETAIL";
+        } else {
+            factText.style.display = 'block';
+            statusText.textContent = "TUTUP DETAIL";
+        }
+    }
+
+    // THINK CARDS CHECKLIST TOGGLE
+    function toggleThink(card) {
+        card.classList.toggle('active');
+        playAudio('click');
+    }
+
+    // 4. INTERACTIVE QUIZ ENGINE DATA & MECHANICS
+    const quizData = [
+        {
+            q: "Apa nama tindakan mengirim pesan dengan nada marah dan kasar secara langsung di media digital?",
+            options: ["Cyberstalking", "Impersonation", "Flaming", "Phishing"],
+            correct: 2
+        },
+        {
+            q: "Jika Anda menerima pesan intimidasi dari pelaku siber, tindakan '3M' pertama yang dianjurkan adalah...",
+            options: ["Abaikan / Tidak Merespon", "Langsung Membalas", "Menghapus Akun", "Melaporkan Akun Anda"],
+            correct: 0
+        },
+        {
+            q: "Regulasi hukum utama di Indonesia yang mengontrol aktivitas siber negatif / perundungan adalah...",
+            options: ["Undang-Undang Hak Cipta", "UU ITE", "UU Sisdiknas", "KUH Perdata"],
+            correct: 1
+        },
+        {
+            q: "Berapa denda maksimal yang mengintai pelaku pencemaran nama baik dalam UU ITE?",
+            options: ["Rp 100 Juta", "Rp 500 Juta", "Rp 750 Juta s.d 1 Miliar", "Rp 10 Miliar"],
+            correct: 2
+        },
+        {
+            q: "Menyamar menggunakan akun palsu dengan tujuan merusak nama baik korban disebut...",
+            options: ["Impersonation", "Cyberstalking", "Denigration", "Trolling"],
+            correct: 0
+        },
+        {
+            q: "Apa fungsi huruf 'K' dalam prinsip etika bersosial media T.H.I.N.K?",
+            options: ["Keaslian data", "Kind (Kebaikan tutur kata)", "Kuantitas konten", "Kritik pedas"],
+            correct: 1
+        },
+        {
+            q: "Mengapa pelaku cyberbullying cenderung merasa lebih berani saat merundung secara online?",
+            options: ["Karena mereka diawasi ketat", "Adanya rasa anonimitas", "Karena dibayar", "Merasa tidak melakukan kesalahan"],
+            correct: 1
+        },
+        {
+            q: "Berikut ini yang merupakan dampak fisik nyata dari depresi akibat perundungan siber yaitu...",
+            options: ["Gangguan pola tidur & sakit lambung", "Membuat tubuh makin berotot", "Meningkatkan nafsu makan", "Menajamkan panca indera"],
+            correct: 0
+        },
+        {
+            q: "Apa yang harus Anda lakukan jika mengetahui teman kelas Anda menjadi korban cyberbullying?",
+            options: ["Ikut mengejek demi solidaritas", "Membiarkan saja agar tidak terlibat", "Mendukung moralnya & melapor ke guru", "Menyebarkan rahasia teman tersebut"],
+            correct: 2
+        },
+        {
+            q: "Menyebarkan foto aib, data privat, atau rahasia orang lain tanpa izin di internet dikenal dengan istilah...",
+            options: ["Outing", "Phishing", "Trolling", "Spamming"],
+            correct: 0
+        }
+    ];
+
+    let currentQuestionIndex = 0;
+    let score = 0;
+
+    function renderQuiz() {
+        const container = document.getElementById('quiz-cards-container');
+        container.innerHTML = '';
+
+        quizData.forEach((item, qIdx) => {
+            const qSlide = document.createElement('div');
+            qSlide.className = `quiz-question-slide ${qIdx === currentQuestionIndex ? 'active' : ''}`;
+            qSlide.id = `q-slide-${qIdx}`;
+
+            const qTitle = document.createElement('h3');
+            qTitle.style.fontSize = '22px';
+            qTitle.style.marginBottom = '20px';
+            qTitle.textContent = item.q;
+            qSlide.appendChild(qTitle);
+
+            const optGrid = document.createElement('div');
+            optGrid.className = 'options-grid';
+
+            item.options.forEach((optText, optIdx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-button';
+                btn.innerHTML = `<span class="option-indicator"><i class="fa-solid fa-check"></i></span> ${optText}`;
+                btn.onclick = () => selectAnswer(qIdx, optIdx, btn);
+                optGrid.appendChild(btn);
+            });
+
+            qSlide.appendChild(optGrid);
+            container.appendChild(qSlide);
+        });
+
+        updateQuizProgress();
+    }
+
+    function selectAnswer(questionIdx, selectedIdx, clickedBtn) {
+        const currentQuestion = quizData[questionIdx];
+        const allButtons = clickedBtn.parentElement.querySelectorAll('.option-button');
+        
+        allButtons.forEach(btn => btn.disabled = true);
+
+        if (selectedIdx === currentQuestion.correct) {
+            clickedBtn.classList.add('correct');
+            score += 10;
+            document.getElementById('live-score').textContent = score;
+            playAudio('correct');
+        } else {
+            clickedBtn.classList.add('wrong');
+            allButtons[currentQuestion.correct].classList.add('correct');
+            playAudio('wrong');
+        }
+
+        setTimeout(() => {
+            if (currentQuestionIndex < quizData.length - 1) {
+                document.getElementById(`q-slide-${currentQuestionIndex}`).classList.remove('active');
+                currentQuestionIndex++;
+                document.getElementById(`q-slide-${currentQuestionIndex}`).classList.add('active');
+                updateQuizProgress();
+            } else {
+                document.getElementById('final-score-text').textContent = `${score} / 100`;
+                playAudio('victory');
+                currentSlideIndex = 14; // Hasil Kuis
+                updateSlide();
+            }
+        }, 1500);
+    }
+
+    function updateQuizProgress() {
+        const progressPercent = ((currentQuestionIndex + 1) / quizData.length) * 100;
+        document.getElementById('quiz-progress-bar').style.width = `${progressPercent}%`;
+        document.getElementById('quiz-question-number').textContent = `Pertanyaan ${currentQuestionIndex + 1} dari ${quizData.length}`;
+    }
+
+    function startInteractiveQuiz() {
+        currentQuestionIndex = 0;
+        score = 0;
+        document.getElementById('live-score').textContent = score;
+        renderQuiz();
+        currentSlideIndex = 13; // Membuka Slide Soal Kuis
+        updateSlide();
+    }
+
+    function resetQuiz() {
+        currentQuestionIndex = 0;
+        score = 0;
+        document.getElementById('live-score').textContent = score;
+        currentSlideIndex = 12; // Slide intro kuis
+        playAudio('click');
+        renderQuiz();
+        updateSlide();
+    }
+
+    // Jalankan inisialisasi awal saat halaman termuat
+    window.onload = () => {
+        renderQuiz();
+        updateSlide();
+    };
+</script>
+</body>
+</html>
